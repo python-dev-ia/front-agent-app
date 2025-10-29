@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Agent App",
-  description: "Aplicación de agentes",
+  title: "AgentLive",
+  description: "Aplicación de agentes inteligentes",
 };
 
 export default function RootLayout({

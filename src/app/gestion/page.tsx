@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { tokenStorage, getUserFromToken } from '@/lib/api';
 
-export default function HomePage() {
+export default function GestionPage() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -29,7 +29,6 @@ export default function HomePage() {
   }, [router]);
 
   useEffect(() => {
-    // Cerrar sidebar cuando se hace click fuera en mobile
     const handleClickOutside = (e: MouseEvent) => {
       if (sidebarOpen && window.innerWidth < 1024) {
         const target = e.target as HTMLElement;
@@ -44,7 +43,6 @@ export default function HomePage() {
   }, [sidebarOpen]);
 
   useEffect(() => {
-    // Prevenir scroll del body cuando el sidebar está abierto en mobile
     if (sidebarOpen && window.innerWidth < 1024) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -141,10 +139,10 @@ export default function HomePage() {
           <nav className="flex-1 space-y-1 px-3 py-4">
             <a
               href="/home"
-              className="group flex items-center rounded-lg px-3 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 transition-colors"
+              className="group flex items-center rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
             >
               <svg
-                className="mr-3 h-5 w-5 text-blue-600"
+                className="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-600"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -157,7 +155,7 @@ export default function HomePage() {
               Inicio
             </a>
             <a
-              href="/mi-chat"
+              href="/panel-control"
               className="group flex items-center rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
             >
               <svg
@@ -169,16 +167,16 @@ export default function HomePage() {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
-              Mi Chat
+              Panel de Control
             </a>
             <a
-              href="/mis-agentes"
-              className="group flex items-center rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+              href="/gestion"
+              className="group flex items-center rounded-lg px-3 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 transition-colors"
             >
               <svg
-                className="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-600"
+                className="mr-3 h-5 w-5 text-blue-600"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -188,7 +186,7 @@ export default function HomePage() {
               >
                 <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
-              Mis Agentes
+              Gestión
             </a>
             <a
               href="/configuracion"
@@ -207,23 +205,6 @@ export default function HomePage() {
                 <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
               Configuración
-            </a>
-            <a
-              href="/perfil"
-              className="group flex items-center rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-            >
-              <svg
-                className="mr-3 h-5 w-5 text-gray-400 group-hover:text-blue-600"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              Perfil
             </a>
           </nav>
 
@@ -285,78 +266,9 @@ export default function HomePage() {
         <main className="flex-1 px-4 py-8 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
-              Dashboard
+              Gestión
             </h2>
-            <p className="text-gray-600">{user.email}</p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-center mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
-                  <svg
-                    className="h-6 w-6 text-blue-600"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Panel de Control</h3>
-              <p className="text-gray-600">
-                Accede a todas las funcionalidades de tu cuenta
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-center mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
-                  <svg
-                    className="h-6 w-6 text-purple-600"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Gestión</h3>
-              <p className="text-gray-600">
-                Administra tus recursos y configuraciones
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
-              <div className="flex items-center mb-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
-                  <svg
-                    className="h-6 w-6 text-green-600"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Configuración</h3>
-              <p className="text-gray-600">
-                Personaliza tu experiencia
-              </p>
-            </div>
+            <p className="text-gray-600">Administra tus recursos y configuraciones</p>
           </div>
         </main>
       </div>
